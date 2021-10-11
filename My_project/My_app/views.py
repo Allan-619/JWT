@@ -30,6 +30,9 @@ class CustomRedirect(HttpResponsePermanentRedirect):
 
 
 class RegisterView(generics.GenericAPIView):
+
+    """Class For Registering New Users"""
+
     serializer_class = RegisterSerializer
 
     # renderer_classes = (UserRenderer,)
@@ -56,6 +59,9 @@ class RegisterView(generics.GenericAPIView):
 
 
 class LoginAPIView(generics.GenericAPIView):
+
+    """Class for User Login"""
+
     serializer_class = LoginSerializer
 
     def post(self, request):
@@ -65,6 +71,9 @@ class LoginAPIView(generics.GenericAPIView):
 
 
 class RequestPasswordResetEmail(generics.GenericAPIView):
+
+    """Class for user Password change request via email"""
+
     serializer_class = ResetPasswordEmailRequestSerializer
 
     def post(self, request):
@@ -95,6 +104,9 @@ class RequestPasswordResetEmail(generics.GenericAPIView):
 
 
 class PasswordTokenCheckAPI(generics.GenericAPIView):
+
+    """Class to get the token and uidb64 for changing password"""
+
     def get(self, request, uidb64, token):
         try:
             id = smart_str(urlsafe_base64_decode(uidb64))
@@ -110,12 +122,38 @@ class PasswordTokenCheckAPI(generics.GenericAPIView):
 
 class SetNewPasswordAPIView(generics.GenericAPIView):
 
+    """Class for setting New Passsword"""
+
     serializer_class = SetNewPasswordSerializer
 
     def patch(self, request):
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         return Response({'success': True, 'message': 'Password reset success'}, status=status.HTTP_200_OK)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class LogoutAPIView(generics.GenericAPIView):
