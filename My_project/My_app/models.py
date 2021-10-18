@@ -37,8 +37,8 @@ AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(max_length=255, unique=True, db_index=True)
-    email = models.EmailField(max_length=255, unique=True, db_index=True)
+    username = models.CharField(max_length=255, unique=True )
+    email = models.EmailField(max_length=255, unique=True)
     is_verified = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -54,7 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def tokens(self):
         refresh = RefreshToken.for_user(self)
@@ -62,3 +62,11 @@ class User(AbstractBaseUser, PermissionsMixin):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+
+
+class Products(models.Model):
+
+    name = models.CharField(max_length=100)
+    price = models.IntegerField()
+    barcode = models.IntegerField()
+    user = models.ForeignKey(User,on_delete=models.CASCADE,related_name='user',null=True,blank=True)

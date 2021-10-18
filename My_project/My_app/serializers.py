@@ -1,6 +1,6 @@
 
 from rest_framework import serializers
-from .models import User
+from .models import User,Products
 from django.contrib import auth
 from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.tokens import RefreshToken, TokenError
@@ -145,3 +145,13 @@ class LogoutSerializer(serializers.Serializer):
 
         except TokenError:
             self.fail('bad_token')
+
+
+class ProductSerializer(serializers.ModelSerializer):
+
+    """Class Serializer for Product serializer"""
+    user = serializers.StringRelatedField(read_only=True)
+    class Meta:
+        """Assigning models and fields"""
+        model = Products
+        fields = '__all__'
